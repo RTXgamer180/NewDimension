@@ -1,48 +1,15 @@
-# New Dimension — Fabric for Minecraft Java 26.2
+# New Dimension — command implementation (experimental)
 
-This is a **starter source project**, not a compiled or tested `.jar`. It establishes the mod project and documents the intended command/config design. Dynamic dimension registration, safe portal creation, and per-dimension inventory/gamemode enforcement need to be implemented and tested against the exact 26.2 mappings before this can be considered a finished playable mod.
+This project implements a persistent command/configuration layer for custom dimension definitions:
+- `/newdimension create <id> <surface_block> <portal_frame_block> <gamemode> <shared|separate>`
+- `/newdimension list`
+- `/newdimension info <id>`
+- `/newdimension remove <id>`
 
-## Intended command
+Definitions are stored in `new-dimensions.json` in the world save folder.
 
-```text
-/newdimension create <id> <surface_block> <portal_frame_block> <gamemode> <shared|separate>
-```
+## Important limitation
+This does NOT yet create playable dimensions, generate chunks, activate portals, move players between dimensions, or swap inventories. The dynamic dimension library found in research (DimLib) only lists Minecraft 1.21.1 and 1.20.4 support, not 26.2, so wiring it in would not be honest or safe. The commands here manage persistent definitions and clearly report that the runtime backend is missing.
 
-Example:
-```text
-/newdimension create moon minecraft:stone minecraft:crying_obsidian survival separate
-```
-
-- `id`: lowercase dimension name, e.g. `moon`
-- `surface_block`: block ID used as the primary terrain surface
-- `portal_frame_block`: block required for the physical portal frame
-- `gamemode`: `survival`, `creative`, `adventure`, or `spectator`
-- inventory: `shared` or `separate`
-
-## What is and isn't implemented here
-
-Included:
-- Fabric mod metadata for Minecraft 26.2
-- Java entrypoint scaffold
-- Build configuration scaffold
-- command specification and implementation plan
-
-Not yet implemented:
-- Runtime registration/loading of generated dimension definitions
-- Surface-block substitution in vanilla biome terrain generation
-- Portal frame scanning, ignition/activation, and two-way travel
-- Persistent per-dimension inventory snapshots
-- Enforcing a configured gamemode on dimension entry
-- A built/tested release `.jar`
-
-These are core gameplay systems, not just command syntax. This source starter must not be treated as a working mod yet.
-
-## Build environment
-
-Minecraft 26.2's Fabric toolchain uses a recent Java/Gradle/Loom setup. Check the official current versions before building:
-- https://docs.fabricmc.net/develop/
-- https://fabricmc.net/develop/
-
-Once the implementation is completed, run `./gradlew build` (Windows: `gradlew.bat build`) and install the **remapped** JAR from `build/libs/` into the `mods` folder alongside the matching Fabric Loader and Fabric API.
-
-Back up any world before testing mods that change dimensions.
+## Build online
+Upload all files to a GitHub repository, preserving `.github/workflows/build.yml`, then use Actions -> Build New Dimension mod. Dependency versions must match the actual Fabric 26.2 release metadata.
