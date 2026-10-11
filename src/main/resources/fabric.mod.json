@@ -3,7 +3,7 @@
   "id": "new_dimension",
   "version": "${version}",
   "name": "New Dimension",
-  "description": "Starter project for configurable custom dimensions.",
+  "description": "Experimental custom dimension mod for Minecraft Java 26.2",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -13,6 +13,7 @@
   "depends": {
     "fabricloader": ">=0.19.0",
     "minecraft": "~26.2",
-    "java": ">=25"
+    "java": ">=25",
+    "fabric-api": "*"
   }
 }
