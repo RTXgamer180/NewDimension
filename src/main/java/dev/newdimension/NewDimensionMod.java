@@ -10,6 +10,9 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.permissions.Permissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import net.minecraft.world.level.storage.LevelResource;
 
 import java.io.Reader;
@@ -22,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public final class NewDimensionMod implements ModInitializer {
+    private static final Logger LOGGER = LoggerFactory.getLogger("New Dimension");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final Type MAP_TYPE = new TypeToken<LinkedHashMap<String, DimensionSpec>>() {}.getType();
     private static final Map<String, DimensionSpec> SPECS = new LinkedHashMap<>();
@@ -37,7 +41,7 @@ public final class NewDimensionMod implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             dispatcher.register(Commands.literal("newdimension")
-                .requires(source -> source.hasPermission(2))
+                .requires(source -> source.permissions().hasPermission(Permissions.COMMANDS_MODERATOR))
                 .then(Commands.literal("create")
                     .then(Commands.argument("id", StringArgumentType.word())
                     .then(Commands.argument("surface_block", StringArgumentType.word())
@@ -141,7 +145,7 @@ public final class NewDimensionMod implements ModInitializer {
             Map<String, DimensionSpec> loaded = GSON.fromJson(reader, MAP_TYPE);
             if (loaded != null) SPECS.putAll(loaded);
         } catch (Exception e) {
-            server.getLogger().error("[New Dimension] Could not load new-dimensions.json", e);
+            LOGGER.error("Could not load new-dimensions.json", e);
         }
     }
 
@@ -153,7 +157,7 @@ public final class NewDimensionMod implements ModInitializer {
                 GSON.toJson(SPECS, MAP_TYPE, writer);
             }
         } catch (Exception e) {
-            System.err.println("[New Dimension] Could not save definitions: " + e.getMessage());
+            LOGGER.error("Could not save dimension definitions", e);
         }
     }
 }
