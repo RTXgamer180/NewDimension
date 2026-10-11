@@ -3,7 +3,7 @@
   "id": "new_dimension",
   "version": "${version}",
   "name": "New Dimension",
-  "description": "Experimental custom dimension mod for Minecraft Java 26.2",
+  "description": "Experimental persistent custom-dimension command definitions.",
   "environment": "*",
   "entrypoints": {
     "main": [
