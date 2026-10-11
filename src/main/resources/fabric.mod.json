@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "new_dimension",
+  "version": "${version}",
+  "name": "New Dimension",
+  "description": "Starter project for configurable custom dimensions.",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.newdimension.NewDimensionMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.19.0",
+    "minecraft": "~26.2",
+    "java": ">=25"
+  }
+}
